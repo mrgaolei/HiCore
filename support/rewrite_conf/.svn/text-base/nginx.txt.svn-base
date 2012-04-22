@@ -1,0 +1,16 @@
+url_mode:1
+
+location ~* /$ {
+   rewrite         ^/(.*)$ /index.php?$1;
+}
+
+-----------------------
+
+url_mode:3
+
+location ~* .html$ {
+	rewrite			^/(.*)$ /index.php?$1;
+}
+location ~* /$ {
+        rewrite                 ^/(.*)$ /index.php?$1;
+}

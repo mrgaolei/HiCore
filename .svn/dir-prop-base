@@ -1,0 +1,9 @@
+K 10
+svn:ignore
+V 40
+.buildpath
+.project
+.settings
+nbproject
+
+END

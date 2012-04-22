@@ -1,0 +1,12 @@
+url_mode:1
+
+RewriteEngine On
+RewriteRule ^(.*)/$ /index.php?$1
+
+-----------------------
+
+url_mode:3
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^/index.php
+RewriteRule ^(.*)$ /index.php?$1
