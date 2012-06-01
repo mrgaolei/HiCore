@@ -34,6 +34,7 @@ $G_CLASS_FILES = array(
 
 'file'=>'hilib/file.class.php',
 'Hidb'=>'hilib/hidb.class.php',
+'Hidb2'=>'hilib/hidb2.class.php',
 'HiLogicDB' => 'hicore/HiLogicDB.php',
 'ShardDAO' => 'hicore/ShardDAO.php',
 'CacheDAO' => 'hicore/CacheDAO.php',

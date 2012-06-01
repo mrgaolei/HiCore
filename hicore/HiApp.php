@@ -20,7 +20,7 @@ class HiApp {
     private $view_root;
     private $obj_root;
           
-    protected $_app_config; // ÏµÍ³ÅäÖÃÎÄ¼þ
+    protected $_app_config; // ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 
     function  __construct($app_config) {
     	
@@ -28,7 +28,7 @@ class HiApp {
         $this->_initConfig();
         Hi::replaceIni('app_config', $app_config);
 
-         // ÉèÖÃÄ¬ÈÏµÄÊ±Çø
+         // ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½Ïµï¿½Ê±ï¿½ï¿½
         
         date_default_timezone_set(Hi::ini('default_timezone')?Hi::ini('default_timezone'):"Asia/Shanghai");
        
@@ -64,7 +64,7 @@ class HiApp {
         
        	define('DB_TABLEPRE',Hi::ini('db_tablepre'));  
 
-    	// ´ò¿ª session
+    	// ï¿½ï¿½ session
         if (Hi::ini('runtime_session_start'))
         {
             session_start();
@@ -77,19 +77,29 @@ class HiApp {
 	    require_once HICORE_PATH . '/hilib/BaseClient.php';
 	}
 
-        // µ¼ÈëÀàËÑË÷Â·¾¶
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
         Hi::importcontroller($this->controller_root);
         Hi::importmodel($this->model_root);
         //Hi::import($this->approot);        
         
         $this->init_request();
 	if (!Hi::ini('db_disable')) {
-	    $this-> init_defaultdb(); //³õÊ¼»¯Ä¬ÈÏµÄÊý¾Ý¿âÅäÖÃ
+	    $this-> init_defaultdb(); //ï¿½ï¿½Ê¼ï¿½ï¿½Ä¬ï¿½Ïµï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½
 	}
 		
     }
 
     function init_defaultdb() {
+    	if (!Hi::ini('db_dsn')) {
+    		$charset = Hi::ini('db_charset');
+    		$charset == 'utf-8' && $charset = 'utf8';
+    		$dsn = "mysql:host=".Hi::ini('db_host').";dbname=".Hi::ini('db_name').";charset=".$charset;
+    	} else {
+    		$dsn = Hi::ini('db_dsn');
+    	}
+    	
+    	$db = new Hidb2($dsn, Hi::ini('db_user'), Hi::ini('db_password'), null);
+    	/*
         $db = new Hidb(
         	Hi::ini('db_host'),
         	Hi::ini('db_user'),
@@ -100,13 +110,14 @@ class HiApp {
         	Hi::ini('db_usetrans'),
         	Hi::ini('db_autocommit')
         	);
+        	*/
         Hi::addDb($db,Hi::ini('db_name'),true);
         
     }
     
     
   	/**
-     * ³õÊ¼»¯Ó¦ÓÃ³ÌÐòÉèÖÃ
+     * ï¿½ï¿½Ê¼ï¿½ï¿½Ó¦ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     protected function _initConfig()
     {
@@ -115,20 +126,20 @@ class HiApp {
        
         #ENDIF
         $cache_id = $this->_app_config['APPID'] . '_app_config';
-        // ÔØÈëÅäÖÃÎÄ¼þ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
         if ($this->_app_config['CONFIG_CACHED'])
         {
            
             /**
-             * ´Ó»º´æÔØÈëÅäÖÃÎÄ¼þÄÚÈÝ
+             * ï¿½Ó»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
              */
 
-            // ¹¹Ôì»º´æ·þÎñ¶ÔÏó
+            // ï¿½ï¿½ï¿½ì»ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             $backend = $this->_app_config['CONFIG_CACHE_BACKEND'];
             $settings = isset($this->_app_config['CONFIG_CACHE_SETTINGS'][$backend]) ? $this->_app_config['CONFIG_CACHE_SETTINGS'][$backend] : null;
             $cache = new $backend($settings);
 
-            // ÔØÈë»º´æÄÚÈÝ
+            // ï¿½ï¿½ï¿½ë»ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             
             $config = $cache->get($cache_id);
 
@@ -139,7 +150,7 @@ class HiApp {
             }
         }
 
-        // Ã»ÓÐÊ¹ÓÃ»º´æ£¬»ò»º´æÊý¾ÝÊ§Ð§
+        // Ã»ï¿½ï¿½Ê¹ï¿½Ã»ï¿½ï¿½æ£¬ï¿½ò»º´ï¿½ï¿½ï¿½ï¿½Ê§Ð§
         $config = self::loadConfig($this->_app_config);
         if ($this->_app_config['CONFIG_CACHED'])
         {
@@ -151,7 +162,7 @@ class HiApp {
     
     
  /**
-     * ÔØÈëÅäÖÃÎÄ¼þÄÚÈÝ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
      *
      * @param array $app_config
      *
@@ -253,7 +264,7 @@ class HiApp {
 			$querystrings = $pars;
         	switch (count($querystrings)) {
         		case 0:
-        			# ÍêÈ«Ä¬ÈÏµÄcºÍa
+        			# ï¿½ï¿½È«Ä¬ï¿½Ïµï¿½cï¿½ï¿½a
         			$this->control = 'index';
         			$this->controller = 'IndexController';
         			$this->action = 'default';
@@ -283,7 +294,7 @@ class HiApp {
         			}
         			break;
         		case 3:
-        			# 0£ºc¡¢1£ºa¡¢2£º²ÎÊý
+        			# 0ï¿½ï¿½cï¿½ï¿½1ï¿½ï¿½aï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         			$this->control = strtolower($querystrings[0]);
         			$this->controller = ucfirst($querystrings[0]).'Controller';
         			$this->action = strtolower($querystrings[1]);
@@ -339,13 +350,13 @@ class HiApp {
             if($control->checkable($this->control, $this->action)) {
                 $control->$method();
             }else {
-                $control->message('Controller: '.$this->controller.', Action: '.$this->action.'.<br />'.$regular.' ·ÃÎÊ±»¾Ü¾ø£¡','', $isadmin);
+                $control->message('Controller: '.$this->controller.', Action: '.$this->action.'.<br />'.$regular.' ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ü¾ï¿½','', $isadmin);
             }
         }else {
             $this->notfound('method "'.$method.'" not found!');
         }
         
-        Hi::closeSharddb_mlink();//¹Ø±ÕËùÓÐµÄÊý¾Ý¿âÁ´½Ó
+        Hi::closeSharddb_mlink();//ï¿½Ø±ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
     function notfound($error) {

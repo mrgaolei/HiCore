@@ -14,7 +14,7 @@ class BaseModel {
     protected $_primarykey;
     protected $_validations = array();
 
-    public function __construct(HiDB $db) {
+    public function __construct(HiDB2 $db) {
         $this->db = $db;
         // $this->base = $base;
 		$tablepre = isset($this->_tablepre) ? $this->_tablepre : DB_TABLEPRE;
@@ -130,19 +130,19 @@ class BaseModel {
     }
 
     /*
-      Ìí¼ÓÖ¸¶¨×Ö¶ÎµÄÐ£Ñé¹æÔò
-      $this->->addValidations(new ValidationRule('max_length', 5, '²»ÄÜ³¬¹ý5¸ö×Ö·û'),'field1');
-      »ò
-      $this->->addValidations(V('max_length', 5, '²»ÄÜ³¬¹ý5¸ö×Ö·û'),'field1');
+      ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ö¶Îµï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½
+      $this->->addValidations(new ValidationRule('max_length', 5, 'ï¿½ï¿½ï¿½Ü³ï¿½ï¿½ï¿½5ï¿½ï¿½ï¿½Ö·ï¿½'),'field1');
+      ï¿½ï¿½
+      $this->->addValidations(V('max_length', 5, 'ï¿½ï¿½ï¿½Ü³ï¿½ï¿½ï¿½5ï¿½ï¿½ï¿½Ö·ï¿½'),'field1');
 
-      Èç¹ûÒªÒ»´ÎÐÔÌí¼Ó¶à¸öÑéÖ¤¹æÔò£¬ÐèÒªÊ¹ÓÃ¶þÎ¬Êý×é£º
+      ï¿½ï¿½ï¿½ÒªÒ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¶ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÊ¹ï¿½Ã¶ï¿½Î¬ï¿½ï¿½ï¿½é£º
 
       $this->addValidations(array(
-      V('min', 3, '²»ÄÜÐ¡ÓÚ3'),
-      V('max', 9, '²»ÄÜ´óÓÚ9'),
+      V('min', 3, 'ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½3'),
+      V('max', 9, 'ï¿½ï¿½ï¿½Ü´ï¿½ï¿½ï¿½9'),
       ),'field1');
 
-      Èç¹ûÒªÌí¼ÓÒ»¸ö callback ·½·¨×÷ÎªÑéÖ¤¹æÔò£¬±ØÐëÕâÑùÐ´£º
+      ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ò»ï¿½ï¿½ callback ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ò£¬±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½
       $this->addValidations(V(array($obj, 'method_name'), $args, 'error_message'),'field1');
 
 
@@ -201,8 +201,8 @@ class BaseModel {
     function validate() {
         /*
           $this->addValidations(array(
-          V('min', 3, '²»ÄÜÐ¡ÓÚ3'),
-          V('max', 9, '²»ÄÜ´óÓÚ9'),
+          V('min', 3, 'ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½3'),
+          V('max', 9, 'ï¿½ï¿½ï¿½Ü´ï¿½ï¿½ï¿½9'),
           ),'field1');
          */
     }
