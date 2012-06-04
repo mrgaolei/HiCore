@@ -14,7 +14,7 @@ class BaseModel {
     protected $_primarykey;
     protected $_validations = array();
 
-    public function __construct(HiDB2 $db) {
+    public function __construct(HiPDO $db) {
         $this->db = $db;
         // $this->base = $base;
 		$tablepre = isset($this->_tablepre) ? $this->_tablepre : DB_TABLEPRE;
@@ -46,7 +46,7 @@ class BaseModel {
         $keys = $values = array();
         $key = $value = "";
         foreach ($insertdata as $k => $v) {
-            $keys[] = '`' . $k . '`';
+            $keys[] = '' . $k . '';
             $values[] = '\'' . mysql_escape_string($v) . '\'';
         }
         $key = implode(',', $keys);
@@ -56,10 +56,10 @@ class BaseModel {
         } else {
         	$fun = "INSERT";
         }
-        $sql = "$fun INTO `{$this->_tablename}` ($key) VALUES ($value)";
+        $sql = "$fun INTO {$this->_tablename} ($key) VALUES ($value)";
         $this->db->query($sql, '', $ignore);
         if ($returninsertid)
-            return $this->db->insert_id();
+            return $this->db->insert_id("{$this->_tablename}_{$this->_primarykey}_seq");
     }
 
     public function updatetable($updatedate = array(), $where = array(), $addtype = false) {
@@ -92,13 +92,13 @@ class BaseModel {
     }
 
     public function getAll($filters = array(), $pagesize = 0, $offset = 0, $order = array(), $select = '') {
-        $where = " WHERE 1 ";
+        $where = " WHERE true ";
         if ($filters && is_array($filters)) {
             foreach ($filters as $k => $v) {
                 if (is_string($v) || is_numeric($v)) {
-                    $where .= " AND `$k` = '$v'";
+                    $where .= " AND $k = '$v'";
                 } elseif (is_array($v)) {
-                    $where .= " AND `$k` IN (" . implode(',', $v) . ")";
+                    $where .= " AND $k IN (" . implode(',', $v) . ")";
                 }
             }
         }
@@ -114,12 +114,12 @@ class BaseModel {
         	}
         }
         $orderstr = trim($orderstr, ',');
-        return $this->db->fetch_by_sql("SELECT * FROM `{$this->_tablename}` $where $orderstr $limit", $select);
+        return $this->db->fetch_by_sql("SELECT * FROM {$this->_tablename} $where $orderstr $limit", $select);
     }
 
     public function getByPKID($id, $pk = null) {
         $pkfield = is_null($pk) ? $this->_primarykey : $pk;
-        $sql = "SELECT * FROM `{$this->_tablename}` WHERE `$pkfield` = '$id'";
+        $sql = "SELECT * FROM {$this->_tablename} WHERE $pkfield = '$id'";
         return $this->db->fetch_first($sql);
     }
 

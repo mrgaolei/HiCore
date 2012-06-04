@@ -2,7 +2,7 @@
 
 !defined('HICORE_PATH') && exit('Access Denied');
 
-class Hidb2 {
+class HiPDO {
 	
 	var $mlink;
 	
@@ -46,7 +46,7 @@ class Hidb2 {
 		return $query->fetch();
 	}
 	
-	public function query($sql, $type = '') {
+	public function query($sql, $type = '', $ignore = false) {
 		return $this->mlink->query($sql);
 	}
 	
@@ -62,8 +62,8 @@ class Hidb2 {
 		return $this->mlink->errorCode();
 	}
 	
-	public function insert_id() {
-		return $this->mlink->lastInsertId();
+	public function insert_id($name = null) {
+		return $this->mlink->lastInsertId($name);
 	}
 	
 	public function close() {

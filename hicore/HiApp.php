@@ -98,7 +98,8 @@ class HiApp {
     		$dsn = Hi::ini('db_dsn');
     	}
     	
-    	$db = new Hidb2($dsn, Hi::ini('db_user'), Hi::ini('db_password'), null);
+    	$db = new HiPDO($dsn, Hi::ini('db_user'), Hi::ini('db_password'), null, Hi::ini('db_usetrans'),
+        	Hi::ini('db_autocommit'));
     	/*
         $db = new Hidb(
         	Hi::ini('db_host'),
@@ -111,7 +112,7 @@ class HiApp {
         	Hi::ini('db_autocommit')
         	);
         	*/
-        Hi::addDb($db,Hi::ini('db_name'),true);
+        Hi::addDb($db,$dsn,true);
         
     }
     
