@@ -20,7 +20,7 @@ class HiApp {
     private $view_root;
     private $obj_root;
           
-    protected $_app_config; // ϵͳ�����ļ�
+    protected $_app_config; 
 
     function  __construct($app_config) {
     	
@@ -28,8 +28,6 @@ class HiApp {
         $this->_initConfig();
         Hi::replaceIni('app_config', $app_config);
 
-         // ����Ĭ�ϵ�ʱ��
-        
         date_default_timezone_set(Hi::ini('default_timezone')?Hi::ini('default_timezone'):"Asia/Shanghai");
        
        
@@ -64,7 +62,7 @@ class HiApp {
         
        	define('DB_TABLEPRE',Hi::ini('db_tablepre'));  
 
-    	// �� session
+    	// 初始化 session
         if (Hi::ini('runtime_session_start'))
         {
             session_start();
@@ -77,14 +75,13 @@ class HiApp {
 	    require_once HICORE_PATH . '/hilib/BaseClient.php';
 	}
 
-        // ����������·��
         Hi::importcontroller($this->controller_root);
         Hi::importmodel($this->model_root);
         //Hi::import($this->approot);        
         
         $this->init_request();
 	if (!Hi::ini('db_disable')) {
-	    $this-> init_defaultdb(); //��ʼ��Ĭ�ϵ���ݿ�����
+	    $this-> init_defaultdb();
 	}
 		
     }
@@ -118,7 +115,6 @@ class HiApp {
     
     
   	/**
-     * ��ʼ��Ӧ�ó�������
      */
     protected function _initConfig()
     {
@@ -127,20 +123,16 @@ class HiApp {
        
         #ENDIF
         $cache_id = $this->_app_config['APPID'] . '_app_config';
-        // ���������ļ�
         if ($this->_app_config['CONFIG_CACHED'])
         {
            
             /**
-             * �ӻ������������ļ�����
              */
 
-            // ���컺��������
             $backend = $this->_app_config['CONFIG_CACHE_BACKEND'];
             $settings = isset($this->_app_config['CONFIG_CACHE_SETTINGS'][$backend]) ? $this->_app_config['CONFIG_CACHE_SETTINGS'][$backend] : null;
             $cache = new $backend($settings);
 
-            // ���뻺������
             
             $config = $cache->get($cache_id);
 
@@ -151,7 +143,6 @@ class HiApp {
             }
         }
 
-        // û��ʹ�û��棬�򻺴����ʧЧ
         $config = self::loadConfig($this->_app_config);
         if ($this->_app_config['CONFIG_CACHED'])
         {
@@ -163,7 +154,6 @@ class HiApp {
     
     
  /**
-     * ���������ļ�����
      *
      * @param array $app_config
      *
@@ -177,7 +167,11 @@ class HiApp {
 
         $defaultconfig = require(HICORE_PATH . '/config/default_config.php');
         
-       	$runappconfig = require($cfg .'/'.$run_mode.'_config.php');
+        if (file_exists($cfg .'/'.$run_mode.'_config.php')) {
+       		$runappconfig = require($cfg .'/'.$run_mode.'_config.php');
+        } else {
+        	die("Please provide config file in: <u>".$cfg .'/'.$run_mode.'_config.php</u>');
+        }
 
         $config = array_merge($defaultconfig, $runappconfig);
 
@@ -265,7 +259,6 @@ class HiApp {
 			$querystrings = $pars;
         	switch (count($querystrings)) {
         		case 0:
-        			# ��ȫĬ�ϵ�c��a
         			$this->control = 'index';
         			$this->controller = 'IndexController';
         			$this->action = 'default';
@@ -295,7 +288,6 @@ class HiApp {
         			}
         			break;
         		case 3:
-        			# 0��c��1��a��2������
         			$this->control = strtolower($querystrings[0]);
         			$this->controller = ucfirst($querystrings[0]).'Controller';
         			$this->action = strtolower($querystrings[1]);
@@ -357,7 +349,7 @@ class HiApp {
             $this->notfound('method "'.$method.'" not found!');
         }
         
-        Hi::closeSharddb_mlink();//�ر����е���ݿ�����
+        Hi::closeSharddb_mlink();
     }
 
     function notfound($error) {

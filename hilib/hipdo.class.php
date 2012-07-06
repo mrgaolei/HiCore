@@ -36,13 +36,31 @@ class HiPDO {
 	
 	public function fetch_by_sql($sql, $select = '') {
 		$result = $this->query($sql);
+		if (!$result) {
+			$err = $this->error();
+			throw new Exception($err[2], $err[1]);
+		}
 		$result->setFetchMode(PDO::FETCH_ASSOC);
 		$list = $result->fetchAll();
-		return $list;
+		if ($select) {
+			$return = array();
+			foreach ($list as $row) {
+				if ($row[$select]) {
+					$return[$row[$select]] = $row;
+				}
+			}
+			return $return;
+		} else {
+			return $list;
+		}
 	}
 	
 	public function fetch_first($sql) {
 		$query = $this->query($sql);
+		if (!$query) {
+			$err = $this->error();
+			throw new Exception($err[2], $err[1]);
+		}
 		return $query->fetch();
 	}
 	
@@ -50,7 +68,12 @@ class HiPDO {
 		return $this->mlink->query($sql);
 	}
 	
+	public function prepare($statement, $driver_options = array()) {
+		return $this->mlink->prepare($statement, $driver_options);
+	}
+	
 	public function affected_rows() {
+		throw new Exception("PDO cann't use this function to return affected_rows, you can use query() to know them.", 445);
 		return -1;
 	}
 	
@@ -63,6 +86,10 @@ class HiPDO {
 	}
 	
 	public function insert_id($name = null) {
+		if ($this->mlink->getAttribute(PDO::ATTR_DRIVER_NAME) == 'pgsql' && is_null($name))
+		{
+			throw new Exception("pgsql need a seq_name to return lastInsertId()", 444);
+		}
 		return $this->mlink->lastInsertId($name);
 	}
 	

@@ -36,7 +36,7 @@ class BaseVisitor
 		if ($this->uid) {
 			$this->uid = util::decrypt(Hi::ini('AUTH_SERVER/authkey'), $this->uid);
 			if (is_numeric($this->uid)) {
-				$this->memkey = "mybabyauth_{$this->uid}";
+				$this->memkey = Hi::ini('AUTH_SERVER/cookiename')."_{$this->uid}";
 				$userinfo = Hi::cache($this->memkey);
 				# $userinfo = $this->memcache->get($this->memkey);
 				if (!$userinfo && $this->callback_service && $this->callback_method) {
@@ -66,7 +66,7 @@ class BaseVisitor
 		if ($user_info['user_id']) {
 			$uid = util::encrypt(Hi::ini('AUTH_SERVER/authkey'), $user_info['user_id']);
 			setcookie(Hi::ini('AUTH_SERVER/cookiename'), $uid, $time, '/', Hi::ini('AUTH_SERVER/cookiedomain'));
-			$this->memkey = "mybabyauth_{$user_info['user_id']}";
+			$this->memkey = Hi::ini('AUTH_SERVER/cookiename')."_{$user_info['user_id']}";
 			Hi::writeCache($this->memkey, $user_info, array("life_time" => 0));
 			# $this->memcache->set($this->memkey, $user_info);
 		}

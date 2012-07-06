@@ -38,7 +38,7 @@ class BaseModel {
         if ($order) {
             $orders = " ORDER BY $order";
         }
-        $sql = "SELECT $select FROM `".$this->_tablename."` WHERE $wheres $orders";
+        $sql = "SELECT $select FROM ".$this->_tablename." WHERE $wheres $orders";
         return $this->db->fetch_by_sql($sql);
     }
     
@@ -57,7 +57,10 @@ class BaseModel {
         	$fun = "INSERT";
         }
         $sql = "$fun INTO {$this->_tablename} ($key) VALUES ($value)";
-        $this->db->query($sql, '', $ignore);
+        $result = $this->db->query($sql, '', $ignore);
+        if (!$ignore && !$result) {
+        	throw new Exception("Query Error With: $sql", 4414);
+        }
         if ($returninsertid)
             return $this->db->insert_id("{$this->_tablename}_{$this->_primarykey}_seq");
     }
@@ -67,20 +70,24 @@ class BaseModel {
         $set = "";
         foreach ($updatedate as $k => $v) {
         	if ($addtype) {
-        		$oper = '`' . $k . '` + ';
+        		$oper = '' . $k . ' + ';
         	} else {
         		$oper = '';
         	}
-            $sets[] = '`' . $k . '` = ' . $oper .' \'' . $v . '\'';
+            $sets[] = '' . $k . ' = ' . $oper .' \'' . $v . '\'';
         }
         $set = implode(',', $sets);
         $wheres = array();
         foreach ($where as $k => $v) {
-            $wheres[] = '`' . $k . '` = \'' . $v . '\'';
+            $wheres[] = '' . $k . ' = \'' . $v . '\'';
         }
         $where = implode(' AND ', $wheres);
-        $sql = "UPDATE `{$this->_tablename}` SET $set WHERE $where";
-        $this->db->query($sql);
+        $sql = "UPDATE {$this->_tablename} SET $set WHERE $where";
+        $query = $this->db->query($sql);
+   		if (!$query) {
+			$err = $this->db->error();
+			throw new Exception($err[2], $err[1]);
+		}
     }
     
     public function insertorupdatetable($updatedate = array(), $where = array(), $addtype = false) {
@@ -110,7 +117,7 @@ class BaseModel {
         if ($order) {
         	$orderstr = " ORDER BY";
         	foreach ($order as $k => $v) {
-        		$orderstr .= " `$k` $v,";
+        		$orderstr .= " $k $v,";
         	}
         }
         $orderstr = trim($orderstr, ',');
@@ -119,8 +126,9 @@ class BaseModel {
 
     public function getByPKID($id, $pk = null) {
         $pkfield = is_null($pk) ? $this->_primarykey : $pk;
-        $sql = "SELECT * FROM {$this->_tablename} WHERE $pkfield = '$id'";
-        return $this->db->fetch_first($sql);
+        $stmt = $this->db->prepare("SELECT * FROM {$this->_tablename} WHERE $pkfield = :pkid");
+        $stmt->execute(array(':pkid' => $id));
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function delByPKID($id, $pk = null) {
@@ -174,7 +182,7 @@ class BaseModel {
     }
     
     public function truncate() {
-    	$this->db->query("TRUNCATE TABLE `{$this->_tablename}`");
+    	$this->db->query("TRUNCATE TABLE {$this->_tablename}");
     }
 
     public function makePrimaryID() {

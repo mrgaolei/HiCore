@@ -2,49 +2,49 @@
 !defined('HICORE_PATH') && exit('Access Denied');
 
 /**
- * ¶¨Òå HiCache_File Àà
+ * ï¿½ï¿½ï¿½ï¿½ HiCache_File ï¿½ï¿½
  *
 
 
 /**
- * HiCache_File ÀàÌá¹©ÒÔÎÄ¼þÏµÍ³À´»º´æÊý¾ÝµÄ·þÎñ
+ * HiCache_File ï¿½ï¿½ï¿½á¹©ï¿½ï¿½ï¿½Ä¼ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÝµÄ·ï¿½ï¿½ï¿½
  *
 
  */
 class HiCache_File
 {
 	/**
-	 * ÊÇ·ñÔÊÐíÊ¹ÓÃ»º´æ
+	 * ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ã»ï¿½ï¿½ï¿½
 	 *
 	 * @var boolean
 	 */
 	protected $_enabled = true;
 
 	/**
-	 * Ä¬ÈÏµÄ»º´æ²ßÂÔ
+	 * Ä¬ï¿½ÏµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 *
-	 * -  life_time: »º´æÓÐÐ§Ê±¼ä£¨Ãë£©£¬Ä¬ÈÏÖµ 900
-     *    Èç¹ûÉèÖÃÎª 0 ±íÊ¾»º´æ×ÜÊÇÊ§Ð§£¬ÉèÖÃÎª null Ôò±íÊ¾²»¼ì²é»º´æÓÐÐ§ÆÚ¡£
+	 * -  life_time: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§Ê±ï¿½ä£¨ï¿½ë£©ï¿½ï¿½Ä¬ï¿½ï¿½Öµ 900
+     *    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª 0 ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª null ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½é»ºï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ú¡ï¿½
 	 *
-     * -  serialize£º ×Ô¶¯ÐòÁÐ»¯Êý¾ÝºóÔÙÐ´Èë»º´æ£¬Ä¬ÈÏÎª true
-     *    ¿ÉÒÔºÜ·½±ãµÄ»º´æ PHP ±äÁ¿Öµ£¨ÀýÈçÊý×é£©£¬µ«ÒªÂýÒ»µã¡£
+     * -  serializeï¿½ï¿½ ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½Ýºï¿½ï¿½ï¿½Ð´ï¿½ë»ºï¿½æ£¬Ä¬ï¿½ï¿½Îª true
+     *    ï¿½ï¿½ï¿½ÔºÜ·ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ PHP ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£©ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ã¡£
 	 *
-	 * -  encoding_filename£º ±àÂë»º´æÎÄ¼þÃû£¬Ä¬ÈÏÎª true
-	 *    Èç¹û»º´æID´æÔÚ·ÇÎÄ¼þÃû×Ö·û£¬ÄÇÃ´±ØÐë¶Ô»º´æÎÄ¼þÃû±àÂë¡£
+	 * -  encoding_filenameï¿½ï¿½ ï¿½ï¿½ï¿½ë»ºï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½Îª true
+	 *    ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½Ú·ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ë¡£
      *
-	 * -  cache_dir_depth: »º´æÄ¿Â¼Éî¶È£¬Ä¬ÈÏÎª 0
-	 *    Èç¹û´óÓÚ 1£¬Ôò»áÔÚ»º´æÄ¿Â¼ÏÂ´´½¨×ÓÄ¿Â¼±£´æ»º´æÎÄ¼þ¡£
-	 *    Èç¹ûÒªÐ´ÈëµÄ»º´æÎÄ¼þ³¬¹ý 500 ¸ö£¬Ä¿Â¼Éî¶ÈÉèÖÃÎª 1 »òÕß 2 ½ÏÎªºÏÊÊ¡£
-	 *    Èç¹ûÓÐ¸ü¶àÎÄ¼þ£¬¿ÉÒÔ²ÉÓÃ¸ü´óµÄ»º´æÄ¿Â¼Éî¶È¡£
+	 * -  cache_dir_depth: ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½È£ï¿½Ä¬ï¿½ï¿½Îª 0
+	 *    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Â´ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½æ»ºï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
+	 *    ï¿½ï¿½ï¿½ÒªÐ´ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ 500 ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª 1 ï¿½ï¿½ï¿½ï¿½ 2 ï¿½ï¿½Îªï¿½ï¿½ï¿½Ê¡ï¿½
+	 *    ï¿½ï¿½ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½Ã¸ï¿½ï¿½Ä»ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½È¡ï¿½
      *
-	 * -  cache_dir_umask: ´´½¨»º´æÄ¿Â¼Ê±µÄ±êÖ¾£¬Ä¬ÈÏÎª 0700
+	 * -  cache_dir_umask: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼Ê±ï¿½Ä±ï¿½Ö¾ï¿½ï¿½Ä¬ï¿½ï¿½Îª 0700
      *
-	 * -  cache_dir: »º´æÄ¿Â¼£¨±ØÐëÖ¸¶¨£©
+	 * -  cache_dir: ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½
      *
-	 * -  test_validity: ÊÇ·ñÔÚ¶ÁÈ¡»º´æÄÚÈÝÊ±¼ìÑé»º´æÄÚÈÝÍêÕûÐÔ£¬Ä¬ÈÏÎª true
+	 * -  test_validity: ï¿½Ç·ï¿½ï¿½Ú¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½é»ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½Ä¬ï¿½ï¿½Îª true
      *
-	 * -  test_method£º ¼ìÑé»º´æÄÚÈÝÍêÕûÐÔµÄ·½Ê½£¬Ä¬ÈÏÎª crc32
-	 *    crc32 ËÙ¶È½Ï¿ì£¬¶øÇÒ°²È«¡£md5 ËÙ¶È×îÂý£¬µ«×î¿É¿¿¡£strlen ËÙ¶È×î¿ì£¬¿É¿¿ÐÔÂÔ²î¡£
+	 * -  test_methodï¿½ï¿½ ï¿½ï¿½ï¿½é»ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÔµÄ·ï¿½Ê½ï¿½ï¿½Ä¬ï¿½ï¿½Îª crc32
+	 *    crc32 ï¿½Ù¶È½Ï¿ì£¬ï¿½ï¿½ï¿½Ò°ï¿½È«ï¿½ï¿½md5 ï¿½Ù¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½ï¿½ï¿½strlen ï¿½Ù¶ï¿½ï¿½ï¿½ì£¬ï¿½É¿ï¿½ï¿½ï¿½ï¿½Ô²î¡£
      *
 	 * @var array
 	 */
@@ -61,30 +61,30 @@ class HiCache_File
 	);
 
 	/**
-	 * ¹Ì¶¨ÒªÐ´Èë»º´æÎÄ¼þÍ·²¿µÄÄÚÈÝ
+	 * ï¿½Ì¶ï¿½ÒªÐ´ï¿½ë»ºï¿½ï¿½ï¿½Ä¼ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 *
 	 * @var string
 	 */
 	static protected $_static_head = '<?php die(); ?>';
 
 	/**
-	 * ¹Ì¶¨Í·²¿µÄ³¤¶È
+	 * ï¿½Ì¶ï¿½Í·ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
 	 *
 	 * @var int
 	 */
 	static protected $_static_head_len = 15;
 
 	/**
-	 * »º´æÎÄ¼þÍ·²¿³¤¶È
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 *
 	 * @var int
 	 */
 	static protected $_head_len = 64;
 
 	/**
-	 * ¹¹Ôìº¯Êý
+	 * ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
 	 *
-	 * @param Ä¬ÈÏµÄ»º´æ²ßÂÔ $default_policy
+	 * @param Ä¬ï¿½ÏµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ $default_policy
 	 */
 	function __construct(array $default_policy = null)
 	{
@@ -100,7 +100,7 @@ class HiCache_File
 	}
 
 	/**
-	 * Ð´Èë»º´æ
+	 * Ð´ï¿½ë»ºï¿½ï¿½
 	 *
 	 * @param string $id
 	 * @param mixed $data
@@ -118,7 +118,7 @@ class HiCache_File
 
 		$path = $this->_path($id, $policy);
 
-		// ¹¹Ôì»º´æÎÄ¼þÍ·²¿
+		// ï¿½ï¿½ï¿½ì»ºï¿½ï¿½ï¿½Ä¼ï¿½Í·ï¿½ï¿½
 		$head = self::$_static_head;
 		$head .= pack('ISS', $policy['life_time'], $policy['serialize'], $policy['test_validity']);
 		$head .= sprintf('% 8s', $policy['test_method']);
@@ -127,18 +127,18 @@ class HiCache_File
 		$content = $head;
 		if ($policy['test_validity'])
         {
-			// ½ÓÏÂÀ´µÄ 32 ¸ö×Ö½ÚÐ´ÈëÓÃÓÚÑéÖ¤Êý¾ÝÍêÕûÐÔµÄÑéÖ¤Âë
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 32 ï¿½ï¿½ï¿½Ö½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½Ö¤ï¿½ï¿½
 			$content .= $this->_hash($data, $policy['test_method']);
 		}
 		$content .= $data;
 		unset($data);
 
-		// Ð´Èë»º´æ
+		// Ð´ï¿½ë»ºï¿½ï¿½
 		file_put_contents($path, $content, LOCK_EX);
 	}
 
 	/**
-	 * ¶ÁÈ¡»º´æ£¬Ê§°Ü»ò»º´æÈöÊ§Ð§Ê±·µ»Ø false
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½æ£¬Ê§ï¿½Ü»ò»º´ï¿½ï¿½ï¿½Ê§Ð§Ê±ï¿½ï¿½ï¿½ï¿½ false
 	 *
 	 * @param string $id
 	 * @param array $policy
@@ -151,7 +151,7 @@ class HiCache_File
 
 		$policy = $this->_policy($policy);
 
-		// Èç¹û»º´æ²ßÂÔ life_time Îª null£¬±íÊ¾»º´æÊý¾ÝÓÀ²»¹ýÆÚ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ life_time Îª nullï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (is_null($policy['life_time']))
         {
 			$refresh_time = null;
@@ -165,7 +165,7 @@ class HiCache_File
 		clearstatcache();
 		if (!file_exists($path)) { return false; }
 
-		// ¶ÁÈ¡ÎÄ¼þÍ·²¿
+		// ï¿½ï¿½È¡ï¿½Ä¼ï¿½Í·ï¿½ï¿½
 		$fp = fopen($path, 'rb');
 		if (!$fp) { return false; }
 		flock($fp, LOCK_SH);
@@ -174,7 +174,7 @@ class HiCache_File
 		$mqr = get_magic_quotes_runtime();
 		set_magic_quotes_runtime(0);
 
-		// Í·²¿µÄ 32 ¸ö×Ö½Ú´æ´¢ÁË¸Ã»º´æµÄ²ßÂÔ
+		// Í·ï¿½ï¿½ï¿½ï¿½ 32 ï¿½ï¿½ï¿½Ö½Ú´æ´¢ï¿½Ë¸Ã»ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½
 		$head = fread($fp, self::$_head_len);
 		$head = substr($head, self::$_static_head_len);
 		$len -= self::$_head_len;
@@ -183,10 +183,9 @@ class HiCache_File
 		$policy['serialize'] = $tmp['s'];
 		$policy['test_validity'] = $tmp['t'];
 		$policy['test_method'] = trim(substr($head, 8, 8));
-
 		do
         {
-			// ¼ì²é»º´æÊÇ·ñÒÑ¾­¹ýÆÚ
+			// ï¿½ï¿½é»ºï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (!is_null($refresh_time))
             {
 				if (filemtime($path) <= $refresh_time - $policy['life_time'])
@@ -197,7 +196,7 @@ class HiCache_File
 				}
 			}
 
-			// ¼ì²é»º´æÊý¾ÝµÄÍêÕûÐÔ
+			// ï¿½ï¿½é»ºï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if ($policy['test_validity'])
             {
 				$hashtest = fread($fp, 32);
@@ -229,12 +228,12 @@ class HiCache_File
             {
 				if (is_null($refresh_time))
                 {
-					// Èç¹ûÊÇÓÀ²»¹ýÆÚµÄ»º´æÎÄ¼þÃ»Í¨¹ýÑéÖ¤£¬ÔòÖ±½ÓÉ¾³ý
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÚµÄ»ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Ã»Í¨ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½É¾ï¿½ï¿½
 					unlink($path);
 				}
                 else
                 {
-					// ·ñÔòÉèÖÃÎÄ¼þÊ±¼äÎªÒÑ¾­¹ýÆÚ
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Ê±ï¿½ï¿½Îªï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½
 					touch($path, time() - 2 * abs($policy['life_time']));
 				}
 				return false;
@@ -250,7 +249,7 @@ class HiCache_File
 	}
 
 	/**
-	 * É¾³ýÖ¸¶¨µÄ»º´æ
+	 * É¾ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½
 	 *
 	 * @param string $id
 	 * @param array $policy
@@ -262,7 +261,7 @@ class HiCache_File
 	}
 
 	/**
-	 * È·¶¨»º´æÎÄ¼þÃû£¬²¢´´½¨ÐèÒªµÄ´Î¼¶»º´æÄ¿Â¼
+	 * È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Ä´Î¼ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼
 	 *
 	 * @param string $id
      * @param array $policy
@@ -306,7 +305,7 @@ class HiCache_File
 	}
 
 	/**
-	 * ·µ»ØÓÐÐ§µÄ²ßÂÔÑ¡Ïî
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ä²ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
 	 *
 	 * @param array $policy
 	 * @return array
@@ -317,7 +316,7 @@ class HiCache_File
 	}
 
 	/**
-	 * »ñµÃÊý¾ÝµÄÐ£ÑéÂë
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½Ð£ï¿½ï¿½ï¿½ï¿½
 	 *
 	 * @param string $data
 	 * @param string $type
