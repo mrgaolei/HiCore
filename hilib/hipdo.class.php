@@ -72,6 +72,10 @@ class HiPDO {
 		return $this->mlink->prepare($statement, $driver_options);
 	}
 	
+	public function quote ($string, $parameter_type = null) {
+		return $this->mlink->quote($string, $parameter_type);
+	}
+	
 	public function affected_rows() {
 		throw new Exception("PDO cann't use this function to return affected_rows, you can use query() to know them.", 445);
 		return -1;

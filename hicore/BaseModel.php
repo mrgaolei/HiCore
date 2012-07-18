@@ -47,7 +47,7 @@ class BaseModel {
         $key = $value = "";
         foreach ($insertdata as $k => $v) {
             $keys[] = '' . $k . '';
-            $values[] = '\'' . mysql_escape_string($v) . '\'';
+            $values[] = $this->db->quote($v);
         }
         $key = implode(',', $keys);
         $value = implode(',', $values);
